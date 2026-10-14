@@ -1,5 +1,12 @@
 [
     {
+        "title": "Show HN: How random are you?",
+        "file": "show_hn__how_random_are_you_.md",
+        "category": "Artificial Intelligence",
+        "is_hot": true,
+        "date": "2026-10-14 13:38"
+    },
+    {
         "title": "Critical SonicWall SMA 1000 Flaw Targeted in 135 Exploitation Attempts After Patch",
         "file": "critical_sonicwall_sma_1000_flaw_targeted_in_135_e.md",
         "category": "Cybersecurity",

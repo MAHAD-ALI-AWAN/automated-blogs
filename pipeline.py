@@ -186,27 +186,38 @@ def normalize_generated_article(title, summary, generated_text, cover_url, secon
 def ai_discover_category_and_generate(topic):
     logging.info("Generating comprehensive long-form article...")
     title = (topic.get('title') or 'Trending Story').strip()
-    summary = clean_topic_summary(topic.get('summary')) or title
+    
+    summary = clean_topic_summary(topic.get('summary'))
+    summary = re.sub(r'\[\.\.\.\]', '', summary).strip()
+    if not summary:
+        summary = title
+
     cover_url = generate_unique_image_url(title, 'cover')
     secondary_url = generate_unique_image_url(title, 'secondary')
 
-    prompt = f"In-depth tech analysis of {title}: {summary}. Detailed technical insights:"
+    # Prompt ko chota aur clean rakha hai taake model repeat na kare
+    prompt = f"Write a detailed technological analysis explaining why {title} is important for the industry and developers."
 
     generated_text = ""
     try:
         if generator:
-            # max_new_tokens ko increase karke length bari kar di hai
             res = generator(
                 prompt, 
-                max_new_tokens=600, 
+                max_new_tokens=500, 
                 num_return_sequences=1, 
                 do_sample=True, 
                 temperature=0.7,
                 truncation=True
             )
-            generated_text = res[0]['generated_text']
+            raw_output = res[0]['generated_text']
+            
+            # Agar model ne prompt repeat kiya ho, toh usay strip/remove kar dena
+            if raw_output.startswith(prompt):
+                generated_text = raw_output[len(prompt):].strip()
+            else:
+                generated_text = raw_output.strip()
         else:
-            generated_text = f"An in-depth evaluation of {title} highlights key operational efficiencies, security considerations, and architectural enhancements."
+            generated_text = f"An in-depth evaluation of {title} highlights key operational efficiencies, security considerations, and architectural enhancements across modern tech stacks."
 
         category = "Artificial Intelligence"
         normalized = normalize_generated_article(title, summary, generated_text, cover_url, secondary_url)

@@ -20,10 +20,9 @@ logging.basicConfig(
 
 DB_PATH = "data/blog_history.db"
 
-# Hugging Face se thora bara aur better model load karna (e.g., gpt2-medium ya gpt2)
+# Hugging Face model load
 try:
     logging.info("Hugging Face se model load ho raha hai...")
-    # Behtar quality aur length ke liye gpt2-medium use kar rahe hain
     generator = pipeline('text-generation', model='gpt2-medium')
 except Exception as e:
     logging.error(f"Model load error: {e}")
@@ -156,35 +155,33 @@ def clean_topic_summary(summary):
 def normalize_generated_article(title, summary, generated_text, cover_url, secondary_url):
     raw = generated_text or ""
     
-    # Text clean up
+    # Text clean up aur incomplete ending sentences ko saaf karna
     raw = re.sub(r'\n{3,}', '\n\n', raw).strip()
+    # Aakhri incomplete sentence hataane ke liye full stop tak truncate karna
+    last_dot = raw.rfind('.')
+    if last_dot != -1:
+        raw = raw[:last_dot + 1]
 
-    # Dynamic Structured Multi-Section Template (To ensure large & rich blog posts)
     final_article = (
         f"# {title}\n\n"
         f"![Cover Image]({cover_url})\n\n"
         f"## Executive Overview\n\n"
         f"The rapid evolution of modern technology continues to reshape industry standards. "
-        f"Recently, **{title}** has emerged as a crucial topic of discussion among industry experts, software engineers, and digital innovators.\n\n"
-        f"{summary if summary else 'This development addresses key bottlenecks and introduces significant improvements to the ecosystem.'}\n\n"
+        f"Recently, **{title}** has emerged as a crucial topic of discussion among industry experts and developers.\n\n"
+        f"{summary if summary else 'This development addresses key bottlenecks and introduces significant improvements.'}\n\n"
         f"## Detailed Analysis & Insights\n\n"
         f"{raw}\n\n"
-        f"## Core Technical Mechanics & Implications\n\n"
-        f"When breaking down the architectural and practical implications of **{title}**, several critical dimensions come into view:\n\n"
-        f"* **Performance & Scalability:** Designed to handle increasing workloads efficiently while minimizing operational latency.\n"
-        f"* **Integration Flexibility:** Seamlessly fits into existing software pipelines and cloud-native environments.\n"
-        f"* **Security & Compliance:** Built with modern security paradigms to safeguard data integrity and user privacy.\n\n"
+        f"## Core Technical Mechanics\n\n"
+        f"* **Performance & Scalability:** Designed to handle workloads efficiently.\n"
+        f"* **Integration:** Seamlessly fits into existing software workflows.\n\n"
         f"![Secondary Image]({secondary_url})\n\n"
-        f"## Market Impact & Future Outlook\n\n"
-        f"As organizations continue to embrace digital transformation, solutions surrounding **{title}** will play a pivotal role in driving competitive advantage. "
-        f"Early adopters and developers who integrate these concepts early will be well-positioned to lead in their respective domains.\n\n"
-        f"> **💡 Key Takeaway:** Understanding the trajectory of {title.lower()} is essential for engineering leaders, developers, and stakeholders looking to stay ahead of upcoming tech paradigms.\n"
+        f"> **💡 Key Takeaway:** Understanding the trajectory of {title.lower()} is essential for modern tech stacks.\n"
     )
 
     return final_article.strip()
 
 def ai_discover_category_and_generate(topic):
-    logging.info("Generating comprehensive long-form article...")
+    logging.info("Generating safe-length article...")
     title = (topic.get('title') or 'Trending Story').strip()
     
     summary = clean_topic_summary(topic.get('summary'))
@@ -195,15 +192,15 @@ def ai_discover_category_and_generate(topic):
     cover_url = generate_unique_image_url(title, 'cover')
     secondary_url = generate_unique_image_url(title, 'secondary')
 
-    # Prompt ko chota aur clean rakha hai taake model repeat na kare
-    prompt = f"Write a detailed technological analysis explaining why {title} is important for the industry and developers."
+    # Simple prompt jo model aram se process kar sakay
+    prompt = f"Analyzing {title}:"
 
     generated_text = ""
     try:
         if generator:
             res = generator(
                 prompt, 
-                max_new_tokens=500, 
+                max_new_tokens=200,  # Safe limit taake model cut na ho
                 num_return_sequences=1, 
                 do_sample=True, 
                 temperature=0.7,
@@ -211,20 +208,19 @@ def ai_discover_category_and_generate(topic):
             )
             raw_output = res[0]['generated_text']
             
-            # Agar model ne prompt repeat kiya ho, toh usay strip/remove kar dena
             if raw_output.startswith(prompt):
                 generated_text = raw_output[len(prompt):].strip()
             else:
                 generated_text = raw_output.strip()
         else:
-            generated_text = f"An in-depth evaluation of {title} highlights key operational efficiencies, security considerations, and architectural enhancements across modern tech stacks."
+            generated_text = f"An evaluation of {title} highlights operational improvements and tech updates."
 
         category = "Artificial Intelligence"
         normalized = normalize_generated_article(title, summary, generated_text, cover_url, secondary_url)
         return category, True, normalized
     except Exception as e:
         logging.error(f"Generation error: {e}")
-        fallback_text = f"An in-depth evaluation of {title} highlights key operational efficiencies and strategic tech updates."
+        fallback_text = f"An evaluation of {title} highlights key operational efficiencies."
         return "Hot Trends", True, normalize_generated_article(title, summary, fallback_text, cover_url, secondary_url)
 
 def save_to_markdown(content, title, category, is_hot=True):

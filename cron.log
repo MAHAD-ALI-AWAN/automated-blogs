@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/home/azid/Desktop/auto_blog_engine/pipeline.py", line 12, in <module>
+    from transformers import pipeline
+ModuleNotFoundError: No module named 'transformers'

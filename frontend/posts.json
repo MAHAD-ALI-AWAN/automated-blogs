@@ -1,5 +1,12 @@
 [
     {
+        "title": "Jev meets the Trolley Problem",
+        "file": "jev_meets_the_trolley_problem.md",
+        "category": "General News",
+        "is_hot": true,
+        "date": "2026-10-15 20:34"
+    },
+    {
         "title": "NGINX Fixes 5 Flaws, Including Possible RCE and a TLS Bug That May Skip Client-Cert Checks",
         "file": "nginx_fixes_5_flaws__including_possible_rce_and_a_.md",
         "category": "General News",

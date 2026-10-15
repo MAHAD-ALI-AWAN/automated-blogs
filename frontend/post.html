@@ -7,11 +7,41 @@
     <title>Byte Pulse Blogs | Article</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5865967601521346" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Marked.js library for flawless Markdown and Table rendering -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        /* Index.html Matching Shimmer Loader */
+        /* Ambient Glowing Background Animations */
+        .ambient-glow-left {
+            position: fixed;
+            top: 20%;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(15, 23, 42, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: pulseGlow 8s ease-in-out infinite alternate;
+        }
+
+        .ambient-glow-right {
+            position: fixed;
+            bottom: 10%;
+            right: -100px;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, rgba(15, 23, 42, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: pulseGlow 10s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1) translateY(0); opacity: 0.6; }
+            100% { transform: scale(1.2) translateY(-30px); opacity: 0.9; }
+        }
+
         .feed-loader {
             display: grid;
             gap: 1.25rem;
@@ -64,67 +94,205 @@
             100% { background-position: -200% 0; }
         }
 
-        /* Article Typography & Tables */
+        /* Typography & Content Styling */
         .premium-article {
-            color: #e2e8f0;
-            line-height: 1.85;
+            color: #cbd5e1;
+            line-height: 1.9;
+            font-size: 1.05rem;
         }
         .premium-article h1, .premium-article h2, .premium-article h3 {
             color: #f8fafc;
             letter-spacing: -0.02em;
         }
-        .premium-article h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 1.25rem; }
-        .premium-article h2 { font-size: clamp(1.4rem, 2vw, 1.85rem); font-weight: 700; margin: 2rem 0 0.8rem; color: #34d399; border-bottom: 1px solid rgba(52, 211, 153, 0.2); padding-bottom: 0.4rem; }
-        .premium-article h3 { font-size: 1.25rem; font-weight: 600; margin: 1.5rem 0 0.6rem; }
-        .premium-article p { margin-bottom: 1.2rem; color: #cbd5e1; }
+        .premium-article h1 { font-size: clamp(2rem, 3vw, 2.6rem); font-weight: 800; margin-bottom: 1.5rem; line-height: 1.25; }
+        .premium-article h2 { font-size: clamp(1.35rem, 1.8vw, 1.7rem); font-weight: 700; margin: 2rem 0 0.9rem; color: #34d399; border-bottom: 1px solid rgba(52, 211, 153, 0.2); padding-bottom: 0.4rem; }
+        .premium-article h3 { font-size: 1.2rem; font-weight: 600; margin: 1.5rem 0 0.6rem; }
+        .premium-article p { margin-bottom: 1.3rem; color: #cbd5e1; }
         .premium-article ul, .premium-article ol { margin: 1rem 0 1.4rem; padding-left: 1.4rem; }
         .premium-article li { margin: 0.4rem 0; color: #cbd5e1; list-style-type: disc; }
-        .premium-article blockquote { background: rgba(15, 23, 42, 0.8); border-left: 4px solid #10b981; padding: 1rem 1.2rem; border-radius: 0 1rem 1rem 0; margin: 1.5rem 0; font-style: italic; color: #a7f3d0; }
+        .premium-article blockquote { background: rgba(15, 23, 42, 0.8); border-left: 4px solid #10b981; padding: 1.1rem 1.4rem; border-radius: 0 1rem 1rem 0; margin: 1.6rem 0; font-style: italic; color: #a7f3d0; }
         
-        /* Table Styling */
         .premium-article table { width: 100%; border-collapse: collapse; margin: 2rem 0; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 1rem; overflow: hidden; }
-        .premium-article th, .premium-article td { border: 1px solid rgba(148, 163, 184, 0.2); padding: 0.85rem 1rem; text-align: left; }
+        .premium-article th, .premium-article td { border: 1px solid rgba(148, 163, 184, 0.2); padding: 0.9rem 1.1rem; text-align: left; }
         .premium-article th { background: rgba(30, 41, 59, 0.9); color: #f8fafc; font-weight: 700; }
         .premium-article td { color: #cbd5e1; font-size: 0.95rem; }
 
-        .premium-article img { border-radius: 1.25rem; width: 100%; max-height: 450px; object-fit: cover; border: 1px solid rgba(148, 163, 184, 0.2); margin: 1.5rem 0; }
+        .premium-article img { border-radius: 1.25rem; width: 100%; max-height: 480px; object-fit: cover; border: 1px solid rgba(148, 163, 184, 0.2); margin: 1.8rem 0; }
+
+        #toast-notification {
+            transform: translateY(-150%);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            opacity: 0;
+        }
+        #toast-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* App Modal Overlay Animation */
+        #app-install-modal {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        #app-install-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-emerald-500 selection:text-slate-950">
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-emerald-500 selection:text-slate-950 relative overflow-x-hidden">
 
-    <!-- Header -->
-    <header class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-xs font-bold text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1.5">
-                &larr; Back to Feed
-            </a>
+    <!-- Ambient Animated Background Lights -->
+    <div class="ambient-glow-left"></div>
+    <div class="ambient-glow-right"></div>
+
+    <!-- Unified Sticky Header -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+        <div class="w-full px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
+                <a href="index.html" class="text-xs font-bold text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700/60 shrink-0">
+                    &larr; Back to Feed
+                </a>
+                <h1 class="text-xl font-bold tracking-wider text-emerald-400 hidden sm:inline-block">⚡ Byte Pulse Blogs</h1>
+                <span id="dynamic-greeting" class="hidden md:inline-block text-xs font-medium text-slate-400 bg-slate-800/60 px-3 py-1 rounded-full border border-slate-700/50"></span>
+            </div>
+            <div class="flex items-center gap-3 relative z-20">
+                <span id="live-date-badge" class="text-xs text-slate-400 hidden lg:inline-block font-medium"></span>
+                <button type="button" onclick="triggerAppInstall()" class="px-3 py-1.5 rounded-lg text-xs font-bold border transition bg-emerald-500/15 text-emerald-400 border-emerald-500/40 hover:bg-emerald-500/30 flex items-center gap-1.5 shadow-sm cursor-pointer">
+                    📱 Download App
+                </button>
                 <button onclick="openSpotifyShareModal()" 
-                    class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition flex items-center gap-1.5 shadow-lg shadow-emerald-500/5">
-                    ✨ Share Story
+                    class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition flex items-center gap-1.5 shadow-sm shrink-0">
+                    ✨ Share Story Card
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Article Body -->
-    <main class="max-w-3xl mx-auto px-4 py-10 lg:px-6">
-        <div id="article-header" class="mb-8 pb-6 border-b border-slate-800">
-            <h1 id="article-title" class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-4 leading-tight">Loading Article...</h1>
-        </div>
+    <!-- Full Width 3-Column Grid Layout (Mobile Responsive Reordered) -->
+    <div class="w-full px-4 lg:px-8 py-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left Sidebar (Reading Controls & Progress) -> Appears on Top in Mobile -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24 space-y-5 order-1 lg:order-1">
+                <div class="bg-slate-900/70 backdrop-blur border border-slate-800/90 p-5 rounded-2xl shadow-xl space-y-4">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+                        ⚡ Reading Controls
+                    </h3>
 
-        <article id="article-content" class="premium-article">
-            <!-- Shimmer Loader -->
-            <div class="feed-loader" aria-live="polite">
-                <div class="feed-loader-card">
-                    <div class="feed-loader-line short"></div>
-                    <div class="feed-loader-line long"></div>
-                    <div class="feed-loader-line medium"></div>
-                    <div class="feed-loader-block"></div>
+                    <!-- Reading Progress Bar -->
+                    <div>
+                        <div class="flex justify-between text-[11px] text-slate-400 font-medium mb-1.5">
+                            <span>Progress</span>
+                            <span id="scroll-percent">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                            <div id="scroll-bar" class="bg-emerald-500 h-full w-0 transition-all duration-150"></div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-800/80 space-y-2">
+                        <button onclick="toggleCurrentBookmark()" id="bookmark-btn" class="w-full px-3 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/70 transition flex items-center justify-center gap-2">
+                            🔖 Save Article
+                        </button>
+                        <button onclick="copyArticleLink()" class="w-full px-3 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/70 transition flex items-center justify-center gap-2">
+                            🔗 Copy Story Link
+                        </button>
+                        <button onclick="shareToWhatsapp()" class="w-full px-3 py-2.5 rounded-xl text-xs font-semibold bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition flex items-center justify-center gap-2">
+                            💬 Share via WhatsApp
+                        </button>
+                        <button onclick="surpriseMe()" class="w-full px-3 py-2.5 rounded-xl text-xs font-semibold bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 border border-purple-500/30 transition flex items-center justify-center gap-2">
+                            🎲 Surprise Me
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center Column (Main Article Body) -->
+            <main class="lg:col-span-6 bg-slate-900/40 backdrop-blur border border-slate-800/80 p-6 sm:p-8 rounded-3xl shadow-2xl order-2 lg:order-2">
+                <div id="article-header" class="mb-6 pb-6 border-b border-slate-800">
+                    <h1 id="article-title" class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-3 leading-tight">Loading Article...</h1>
+                </div>
+
+                <article id="article-content" class="premium-article">
+                    <div class="feed-loader" aria-live="polite">
+                        <div class="feed-loader-card">
+                            <div class="feed-loader-line short"></div>
+                            <div class="feed-loader-line long"></div>
+                            <div class="feed-loader-line medium"></div>
+                            <div class="feed-loader-block"></div>
+                        </div>
+                    </div>
+                </article>
+            </main>
+
+            <!-- Right Sidebar (App Promo & RSS Widget) -> Appears at Bottom in Mobile -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24 space-y-5 order-3 lg:order-3">
+                
+                <!-- App Promo Card -->
+                <div class="bg-gradient-to-br from-slate-900/90 to-emerald-950/30 backdrop-blur border border-emerald-500/30 p-5 rounded-2xl shadow-xl">
+                    <span class="text-[10px] font-bold bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded uppercase tracking-wider">Mobile First</span>
+                    <h4 class="text-sm font-extrabold text-slate-100 mt-2 mb-1">Get Byte Pulse App</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-3">Read blogs and visual stories offline without any interruption.</p>
+                    <button type="button" onclick="triggerAppInstall()" class="w-full py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs rounded-xl transition shadow-lg shadow-emerald-500/20 cursor-pointer">
+                        📱 Download Application
+                    </button>
+                </div>
+
+                <!-- RSS Feed Copy Box -->
+                <div class="bg-slate-900/70 backdrop-blur border border-slate-800/90 p-5 rounded-2xl shadow-xl space-y-3">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                        📡 RSS JSON Feed
+                    </h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Automate our content in your favourite feeder.</p>
+                    <button onclick="copyRssFeed()" class="w-full py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 font-semibold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
+                        📋 Copy Feed Link
+                    </button>
+                </div>
+
+            </aside>
+
+        </div>
+    </div>
+
+    <!-- App Installation Guide Modal Window -->
+    <div id="app-install-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4">
+        <div class="bg-slate-900 border border-emerald-500/40 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2.5">
+                    <span class="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-lg">📱</span>
+                    <h3 class="text-lg font-bold text-white">Install Byte Pulse App</h3>
+                </div>
+                <button onclick="closeInstallModal()" class="text-slate-400 hover:text-white p-1.5 rounded-lg bg-slate-800/80 transition">✕</button>
+            </div>
+            
+            <p class="text-slate-300 text-xs leading-relaxed mb-5">
+                Add Byte Pulse Blogs to your home screen for lightning-fast reading like a native app.
+            </p>
+
+            <div class="space-y-3 mb-6 text-xs text-slate-300">
+                <div class="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800 flex items-start gap-3">
+                    <span class="text-emerald-400 font-bold text-sm">🤖</span>
+                    <div>
+                        <strong class="text-white block mb-0.5">Android (Chrome / Brave / Edge)</strong>
+                        Tap the top-right menu (<span class="text-emerald-400 font-bold">⋮</span> three dots) and select <span class="text-emerald-400 font-medium">"Install app"</span> or <span class="text-emerald-400 font-medium">"Add to Home screen"</span>.
+                    </div>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800 flex items-start gap-3">
+                    <span class="text-emerald-400 font-bold text-sm">🍏</span>
+                    <div>
+                        <strong class="text-white block mb-0.5">iPhone / iPad (Safari)</strong>
+                        Tap the <span class="text-emerald-400 font-bold">Share icon</span> (<span class="text-emerald-400">⎋</span> or box with arrow) at the bottom of the screen, then select <span class="text-emerald-400 font-medium">"Add to Home Screen"</span>.
+                    </div>
                 </div>
             </div>
-        </article>
-    </main>
+
+            <button onclick="closeInstallModal()" class="w-full py-3 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs hover:bg-emerald-400 transition shadow-lg shadow-emerald-500/10">
+                Got it, thanks! ✨
+            </button>
+        </div>
+    </div>
 
     <!-- Spotify-Style Share Card Modal -->
     <div id="share-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
@@ -133,7 +301,6 @@
             
             <h3 class="text-xs font-bold uppercase tracking-widest text-emerald-400 mb-4 text-center">Share Story Card</h3>
 
-            <!-- Shareable Poster Card -->
             <div id="spotify-card" class="bg-gradient-to-b from-slate-800 via-slate-900 to-slate-950 border border-slate-700/60 p-5 rounded-2xl shadow-xl flex flex-col justify-between aspect-[4/5] relative overflow-hidden">
                 <div class="flex justify-between items-center">
                     <span class="text-[10px] font-extrabold tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full uppercase">
@@ -160,7 +327,6 @@
                 </div>
             </div>
 
-            <!-- Action Buttons -->
             <div class="grid grid-cols-2 gap-2 mt-5">
                 <button onclick="shareToWhatsapp()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5">
                     💬 WhatsApp
@@ -175,31 +341,169 @@
         </div>
     </div>
 
-    <footer class="border-t border-slate-800 mt-16">
-        <div class="max-w-4xl mx-auto px-4 py-10 text-sm text-slate-400">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <!-- Toast Notification Box -->
+    <div id="toast-notification" class="fixed top-20 right-6 z-50 bg-slate-900 border border-emerald-500/40 text-slate-100 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-medium backdrop-blur">
+        <span class="text-emerald-400 text-base">✨</span>
+        <span id="toast-message">Link copied to clipboard!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 mt-20 relative z-10">
+        <div class="w-full px-6 py-10 text-sm text-slate-400">
+            <div class="grid gap-8 md:grid-cols-3">
                 <div>
-                    <h3 class="text-lg font-bold text-emerald-400">Byte Pulse Blogs</h3>
-                    <p class="mt-1 text-slate-400">Smart stories. Better context. Clear insight.</p>
+                    <h3 class="text-lg font-bold text-emerald-400 mb-3">Byte Pulse Blogs</h3>
+                    <p class="leading-6">Fresh stories, sharp insights, and trend-driven analysis for readers who like smart, useful content.</p>
                 </div>
-                <div class="flex flex-wrap gap-4 text-xs uppercase tracking-[0.18em] text-slate-500">
-                    <a href="index.html" class="hover:text-emerald-400 transition">Home</a>
-                    <a href="about.html" class="hover:text-emerald-400 transition">About</a>
-                    <a href="privacy.html" class="hover:text-emerald-400 transition">Privacy</a>
-                    <a href="contact.html" class="hover:text-emerald-400 transition">Contact</a>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Explore</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-emerald-400 transition">Home</a></li>
+                        <li><a href="index.html" class="hover:text-emerald-400 transition">Latest Stories</a></li>
+                        <li><a href="index.html" class="hover:text-emerald-400 transition">Hot Topics</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="about.html" class="hover:text-emerald-400 transition">About</a></li>
+                        <li><a href="privacy.html" class="hover:text-emerald-400 transition">Privacy</a></li>
+                        <li><a href="contact.html" class="hover:text-emerald-400 transition">Contact</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="mt-6 pt-6 border-t border-slate-800 text-center text-xs text-slate-500">
+            <div class="mt-8 pt-6 border-t border-slate-800 text-center text-xs text-slate-500">
                 © 2026 Byte Pulse Blogs. All rights reserved.
             </div>
         </div>
     </footer>
 
-    <!-- Article Script -->
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const fileName = urlParams.get('file');
         const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/MAHAD-ALI-AWAN/automated-blogs/main';
+        let allPostsIndex = [];
+
+        function initHeaderWidgets() {
+            const greetingEl = document.getElementById('dynamic-greeting');
+            const dateEl = document.getElementById('live-date-badge');
+            
+            if (greetingEl) {
+                const hour = new Date().getHours();
+                let greet = "Welcome";
+                if (hour < 12) greet = "🌅 Good Morning";
+                else if (hour < 17) greet = "☀️ Good Afternoon";
+                else greet = "🌙 Good Evening";
+                greetingEl.textContent = greet;
+            }
+
+            if (dateEl) {
+                const options = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+                dateEl.textContent = `📅 ${new Date().toLocaleDateString('en-US', options)}`;
+            }
+        }
+
+        // Scroll Progress Listener
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = Math.min(100, Math.max(0, Math.round((winScroll / height) * 100)));
+            
+            const scrollBar = document.getElementById('scroll-bar');
+            const scrollPercent = document.getElementById('scroll-percent');
+            if (scrollBar) scrollBar.style.width = scrolled + '%';
+            if (scrollPercent) scrollPercent.textContent = scrolled + '%';
+        });
+
+        // PWA App Install Handler Logic
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        function triggerAppInstall() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showToast("📱 App installed successfully on your device!");
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                const modal = document.getElementById('app-install-modal');
+                if (modal) modal.classList.add('active');
+            }
+        }
+
+        function closeInstallModal() {
+            const modal = document.getElementById('app-install-modal');
+            if (modal) modal.classList.remove('active');
+        }
+
+        function copyRssFeed() {
+            const rssUrl = `${GITHUB_RAW_BASE}/frontend/posts.json`;
+            navigator.clipboard.writeText(rssUrl);
+            showToast("📡 RSS JSON feed link copied!");
+        }
+
+        async function fetchPostsIndex() {
+            try {
+                const res = await fetch(`${GITHUB_RAW_BASE}/frontend/posts.json`);
+                if (res.ok) allPostsIndex = await res.json();
+            } catch (e) {
+                console.error("Index load error:", e);
+            }
+        }
+
+        function surpriseMe() {
+            if (allPostsIndex.length === 0) {
+                window.location.href = 'index.html';
+                return;
+            }
+            const randomPost = allPostsIndex[Math.floor(Math.random() * allPostsIndex.length)];
+            showToast(`🎲 Opening random story...`);
+            setTimeout(() => {
+                window.location.href = `post.html?file=${encodeURIComponent(randomPost.file)}`;
+            }, 800);
+        }
+
+        function getSavedPosts() {
+            try {
+                return JSON.parse(localStorage.getItem('byte_pulse_saved') || '[]');
+            } catch {
+                return [];
+            }
+        }
+
+        function updateBookmarkBtnState() {
+            const btn = document.getElementById('bookmark-btn');
+            if (!btn || !fileName) return;
+
+            const saved = getSavedPosts();
+            if (saved.includes(fileName)) {
+                btn.innerHTML = "🔖 Saved in Bookmarks";
+                btn.className = "w-full px-3 py-2.5 rounded-xl text-xs font-semibold bg-blue-500 text-slate-950 border border-blue-400 transition flex items-center justify-center gap-2";
+            } else {
+                btn.innerHTML = "🔖 Bookmark Article";
+                btn.className = "w-full px-3 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/70 transition flex items-center justify-center gap-2";
+            }
+        }
+
+        function toggleCurrentBookmark() {
+            if (!fileName) return;
+            let saved = getSavedPosts();
+            if (saved.includes(fileName)) {
+                saved = saved.filter(f => f !== fileName);
+                showToast("Removed from bookmarks");
+            } else {
+                saved.push(fileName);
+                showToast("Article saved to bookmarks! 🔖");
+            }
+            localStorage.setItem('byte_pulse_saved', JSON.stringify(saved));
+            updateBookmarkBtnState();
+        }
 
         function stripFrontmatter(markdownText) {
             if (!markdownText || !markdownText.trim().startsWith('---')) return markdownText;
@@ -207,7 +511,6 @@
             return match ? markdownText.slice(match[0].length).trim() : markdownText.trim();
         }
 
-        // Convert image URL to Base64 to defeat CORS issues during html2canvas render
         async function fetchImageAsBase64(url) {
             try {
                 const res = await fetch(url);
@@ -220,11 +523,28 @@
                 });
             } catch (err) {
                 console.error("Base64 fetch error:", err);
-                return url; // fallback to original URL
+                return url;
             }
         }
 
+        function showToast(message) {
+            const toast = document.getElementById('toast-notification');
+            const msgEl = document.getElementById('toast-message');
+            if (!toast || !msgEl) return;
+
+            msgEl.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
         async function loadArticle() {
+            initHeaderWidgets();
+            fetchPostsIndex();
+            updateBookmarkBtnState();
+            
             const articleContent = document.getElementById('article-content');
             const titleElement = document.getElementById('article-title');
 
@@ -240,7 +560,6 @@
                 let markdownText = await response.text();
                 markdownText = stripFrontmatter(markdownText);
 
-                // Render Markdown via Marked.js
                 articleContent.innerHTML = marked.parse(markdownText);
 
                 const firstHeading = articleContent.querySelector('h1');
@@ -251,7 +570,6 @@
                     titleElement.innerText = "Article View";
                 }
 
-                // Populate Modal Data
                 document.getElementById('card-title').innerText = titleElement.innerText;
                 document.getElementById('card-link').href = window.location.href;
 
@@ -259,7 +577,6 @@
                 const cardImg = document.getElementById('card-cover-img');
                 
                 if (coverImg && coverImg.src) {
-                    // Convert cover image to base64 for reliable canvas capture
                     const base64Img = await fetchImageAsBase64(coverImg.src);
                     cardImg.src = base64Img;
                 } else {
@@ -285,7 +602,7 @@
 
         function copyArticleLink() {
             navigator.clipboard.writeText(getFullArticleUrl());
-            alert('Article link copied to clipboard!');
+            showToast("Link copied to clipboard! 🔗");
         }
 
         function shareToWhatsapp() {
@@ -305,7 +622,7 @@
                 const canvas = await html2canvas(card, {
                     useCORS: true,
                     allowTaint: true,
-                    scale: 3, // High-DPI crisp rendering
+                    scale: 3,
                     backgroundColor: null
                 });
 
@@ -315,7 +632,7 @@
                 link.click();
             } catch (err) {
                 console.error("Canvas error:", err);
-                alert("Poster image generate hone mein masla aya. Direct link share karein.");
+                showToast("Poster image generate karne mein masla aya.");
             } finally {
                 btn.innerText = "📸 Download Poster Card (JPG)";
                 btn.disabled = false;

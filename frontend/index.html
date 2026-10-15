@@ -8,23 +8,24 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5865967601521346" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-emerald-500 selection:text-slate-950">
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-emerald-500 selection:text-slate-950 relative overflow-x-hidden">
     <style>
         .feed-loader {
             display: grid;
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.25rem;
             padding: 0.5rem 0 1rem;
         }
 
         .feed-loader-card {
             position: relative;
             overflow: hidden;
-            border-radius: 1.25rem;
+            border-radius: 1rem;
             background: linear-gradient(180deg, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95));
             border: 1px solid rgba(148, 163, 184, 0.14);
-            min-height: 152px;
-            padding: 1.2rem 1.3rem;
-            box-shadow: 0 16px 32px rgba(15, 23, 42, 0.22);
+            min-height: 130px;
+            padding: 1rem;
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.22);
         }
 
         .feed-loader-card::before,
@@ -43,10 +44,10 @@
         }
 
         .feed-loader-line {
-            height: 12px;
+            height: 10px;
             border-radius: 999px;
             background: rgba(148, 163, 184, 0.18);
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.6rem;
         }
 
         .feed-loader-line.short { width: 42%; }
@@ -57,85 +58,158 @@
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
+
+        /* Toast Notification Animation */
+        #toast-notification {
+            transform: translateY(-150%);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            opacity: 0;
+        }
+        #toast-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Modal Overlay Animation */
+        #app-install-modal {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        #app-install-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
     </style>
 
     <!-- Header -->
-    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold tracking-wider text-emerald-400">⚡ Byte Pulse Blogs</h1>
-            <span class="text-[11px] text-slate-500 font-medium hidden sm:inline-block">Press <kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-slate-300">/</kbd> to search</span>
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="w-full px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="text-xl font-bold tracking-wider text-emerald-400 hover:text-emerald-300 transition">⚡ Byte Pulse Blogs</a>
+                <span id="dynamic-greeting" class="hidden md:inline-block text-xs font-medium text-slate-400 bg-slate-800/60 px-3 py-1 rounded-full border border-slate-700/50"></span>
+            </div>
+            <div class="flex items-center gap-3 relative z-20">
+                <span id="live-date-badge" class="text-xs text-slate-400 hidden lg:inline-block font-medium"></span>
+                <!-- Download Application Button in Header -->
+                <button type="button" onclick="triggerAppInstall()" class="px-3.5 py-2 rounded-xl text-xs font-bold border transition bg-emerald-500/15 text-emerald-400 border-emerald-500/40 hover:bg-emerald-500/30 flex items-center gap-1.5 shadow-md cursor-pointer">
+                    📱 Download App
+                </button>
+                <span class="text-[11px] text-slate-500 font-medium hidden sm:inline-block">Press <kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-slate-300">/</kbd> to search</span>
+            </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-5xl mx-auto px-4 py-10 lg:px-6">
+    <main class="w-full px-4 py-8 lg:px-8 relative z-10">
         <div>
-            <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <!-- Header Section with Stats Bar -->
+            <div class="mb-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                 <div>
-                    <h2 class="text-3xl font-extrabold tracking-tight">Blogs</h2>
-                    <p class="text-slate-400 text-sm mt-1">Multi-genre articles sorted by category.</p>
+                    <h2 class="text-3xl font-extrabold tracking-tight">Global Knowledge Feed</h2>
+                    <p class="text-slate-400 text-sm mt-1">Multi-genre automated stories sorted dynamically.</p>
+                </div>
+                <div id="stats-bar" class="flex items-center gap-2 bg-slate-900/80 border border-slate-800 px-4 py-2 rounded-2xl text-xs text-slate-300 shadow-inner">
+                    <!-- Populated dynamically -->
                 </div>
             </div>
 
-            <!-- Compact Filter Bar + Live Search Input -->
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-8 pb-4 border-b border-slate-800/85">
-                <button onclick="filterCategory('🔥 Hot Topics')" id="hot-tab-btn"
+            <!-- Filter Bar + Hot Topics + Saved Button + Dropdown + Search + Surprise Me -->
+            <div class="flex flex-col md:flex-row items-stretch md:items-center gap-3 mb-8 pb-4 border-b border-slate-800/85">
+                <button id="hot-tab-btn"
                     class="px-4 py-2.5 rounded-xl text-xs font-bold border transition bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500/20 flex items-center justify-center gap-1.5 shrink-0 shadow-lg shadow-amber-500/5">
                     🔥 Hot Topics
                 </button>
 
-                <div class="relative w-full sm:max-w-xs">
+                <button id="saved-tab-btn" onclick="toggleSavedFilter()"
+                    class="px-4 py-2.5 rounded-xl text-xs font-bold border transition bg-blue-500/10 text-blue-400 border-blue-500/30 hover:bg-blue-500/20 flex items-center justify-center gap-1.5 shrink-0">
+                    🔖 Saved (<span id="saved-count">0</span>)
+                </button>
+
+                <!-- Surprise Me Button -->
+                <button onclick="surpriseMe()" title="Open a random article"
+                    class="px-4 py-2.5 rounded-xl text-xs font-bold border transition bg-purple-500/10 text-purple-400 border-purple-500/30 hover:bg-purple-500/20 flex items-center justify-center gap-1.5 shrink-0">
+                    🎲 Surprise Me
+                </button>
+
+                <div class="relative w-full md:w-52">
                     <select id="category-select" onchange="filterCategory(this.value)" 
                         class="w-full bg-slate-900 border border-slate-800 text-slate-100 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none focus:border-emerald-500/60 appearance-none cursor-pointer">
-                        <!-- Dynamically populated options -->
+                        <!-- Populated with counts -->
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                 </div>
 
-                <!-- Live Search Bar -->
-                <div class="relative w-full sm:flex-1">
+                <div class="relative w-full md:max-w-sm">
                     <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="Search articles by title... (Press '/' to focus)" 
                         class="w-full bg-slate-900 border border-slate-800 text-slate-100 text-xs font-medium rounded-xl px-4 py-2.5 pl-9 focus:outline-none focus:border-emerald-500/60 placeholder:text-slate-500">
                     <svg class="w-4 h-4 text-slate-500 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </div>
             </div>
 
-            <div id="posts-container" class="space-y-6">
-                <div class="feed-loader" aria-live="polite">
-                    <div class="feed-loader-card">
-                        <div>
-                            <div class="feed-loader-line short"></div>
-                            <div class="feed-loader-line long"></div>
-                            <div class="feed-loader-line medium"></div>
-                        </div>
-                    </div>
-                    <div class="feed-loader-card">
-                        <div>
-                            <div class="feed-loader-line short"></div>
-                            <div class="feed-loader-line long"></div>
-                            <div class="feed-loader-line medium"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div id="posts-container"></div>
         </div>
     </main>
 
+    <!-- App Installation Guide Modal Window -->
+    <div id="app-install-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4">
+        <div class="bg-slate-900 border border-emerald-500/40 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2.5">
+                    <span class="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-lg">📱</span>
+                    <h3 class="text-lg font-bold text-white">Install Byte Pulse App</h3>
+                </div>
+                <button onclick="closeInstallModal()" class="text-slate-400 hover:text-white p-1.5 rounded-lg bg-slate-800/80 transition">✕</button>
+            </div>
+            
+            <p class="text-slate-300 text-xs leading-relaxed mb-5">
+                Add Byte Pulse Blogs to your home screen for lightning-fast reading like a native app.
+            </p>
+
+            <div class="space-y-3 mb-6 text-xs text-slate-300">
+                <div class="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800 flex items-start gap-3">
+                    <span class="text-emerald-400 font-bold text-sm">🤖</span>
+                    <div>
+                        <strong class="text-white block mb-0.5">Android (Chrome / Brave / Edge)</strong>
+                        Tap the top-right menu (<span class="text-emerald-400 font-bold">⋮</span> three dots) and select <span class="text-emerald-400 font-medium">"Install app"</span> or <span class="text-emerald-400 font-medium">"Add to Home screen"</span>.
+                    </div>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800 flex items-start gap-3">
+                    <span class="text-emerald-400 font-bold text-sm">🍏</span>
+                    <div>
+                        <strong class="text-white block mb-0.5">iPhone / iPad (Safari)</strong>
+                        Tap the <span class="text-emerald-400 font-bold">Share icon</span> (<span class="text-emerald-400">⎋</span> or box with arrow) at the bottom of the screen, then select <span class="text-emerald-400 font-medium">"Add to Home Screen"</span>.
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="closeInstallModal()" class="w-full py-3 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs hover:bg-emerald-400 transition shadow-lg shadow-emerald-500/10">
+                Got it, thanks! ✨
+            </button>
+        </div>
+    </div>
+
+    <!-- Modern Toast Notification Box -->
+    <div id="toast-notification" class="fixed top-20 right-6 z-50 bg-slate-900 border border-emerald-500/40 text-slate-100 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-medium backdrop-blur">
+        <span class="text-emerald-400 text-base">✨</span>
+        <span id="toast-message">Link copied to clipboard!</span>
+    </div>
+
     <!-- Footer -->
-    <footer class="border-t border-slate-800 mt-20">
-        <div class="max-w-5xl mx-auto px-4 py-10 text-sm text-slate-400">
+    <footer class="border-t border-slate-800 mt-20 relative z-10">
+        <div class="w-full px-6 py-10 text-sm text-slate-400">
             <div class="grid gap-8 md:grid-cols-3">
                 <div>
                     <h3 class="text-lg font-bold text-emerald-400 mb-3">Byte Pulse Blogs</h3>
                     <p class="leading-6">Fresh stories, sharp insights, and trend-driven analysis for readers who like smart, useful content.</p>
                 </div>
                 <div>
-                    <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Explore</h4>
+                    <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Explore & RSS</h4>
                     <ul class="space-y-2">
                         <li><a href="index.html" class="hover:text-emerald-400 transition">Home</a></li>
-                        <li><a href="index.html" class="hover:text-emerald-400 transition">Latest Stories</a></li>
+                        <li><button onclick="copyRssFeed()" class="hover:text-emerald-400 transition text-left">📡 Copy RSS Feed Link</button></li>
                         <li><a href="index.html" class="hover:text-emerald-400 transition">Hot Topics</a></li>
                     </ul>
                 </div>
@@ -155,7 +229,6 @@
     </footer>
 
     <script>
-        // Keyboard Shortcut '/' to focus search
         document.addEventListener('keydown', function(e) {
             const searchInput = document.getElementById('search-input');
             if (e.key === '/' && document.activeElement !== searchInput) {
@@ -166,6 +239,46 @@
                 }
             }
         });
+
+        // PWA App Install Handler Logic
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        function triggerAppInstall() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showToast("📱 App installed successfully on your device!");
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                const modal = document.getElementById('app-install-modal');
+                if (modal) modal.classList.add('active');
+            }
+        }
+
+        function closeInstallModal() {
+            const modal = document.getElementById('app-install-modal');
+            if (modal) modal.classList.remove('active');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast-notification');
+            const msgEl = document.getElementById('toast-message');
+            if (!toast || !msgEl) return;
+
+            msgEl.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
     </script>
     <script src="app.js"></script>
 </body>

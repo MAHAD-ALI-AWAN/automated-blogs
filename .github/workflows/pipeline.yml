@@ -3,14 +3,16 @@ name: Auto Blog Pipeline
 on:
   schedule:
     - cron: '0 */2 * * *'  # Har 2 ghante baad chalega
-  workflow_dispatch:        # Manual run karne ka option bhi rahega
+  workflow_dispatch:      # Manual run button ke liye
+
+permissions:
+  contents: write
 
 jobs:
-  run-pipeline:
+  run-blog-pipeline:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -18,26 +20,10 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install -r requirements.txt
 
-      - name: Install and Start Ollama
-        run: |
-          curl -fsSL https://ollama.com/install.sh | sh
-          ollama serve &
-          sleep 5
-          ollama pull llama3.2
-
-      - name: Run Pipeline
-        run: |
-          python pipeline.py
-
-      - name: Commit and Push Changes (Blog & DB updates)
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add -A
-          git commit -m "Automated blog post update from GitHub Actions" || echo "No changes to commit"
-          git push
+      - name: Run Pipeline Script
+        run: python pipeline.py

@@ -28,6 +28,7 @@ except Exception as e:
     logging.error(f"Model load error: {e}")
     generator = None
 
+# Har tarah ki general aur diverse news feeds (Tech, World News, Science, General)
 MASTER_FEEDS = [
     "https://news.ycombinator.com/rss",
     "https://www.theverge.com/rss/index.xml",
@@ -35,28 +36,58 @@ MASTER_FEEDS = [
     "https://www.bleepingcomputer.com/feed/",
     "http://feeds.bbci.co.uk/news/technology/rss.xml",
     "https://rss.cnn.com/rss/cnn_tech.rss",
-    "https://www.techmeme.com/feed.xml"
+    "https://www.techmeme.com/feed.xml",
+    "http://feeds.bbci.co.uk/news/world/rss.xml",
+    "https://rss.cnn.com/rss/cnn_topstories.rss"
 ]
 
-UNSPLASH_IMAGE_POOL = [
-    "photo-1500530855697-b586d89ba3ee",
-    "photo-1493246507139-91e8fad9978e",
-    "photo-1518770660439-4636190af475",
-    "photo-1522202176988-66273c2fd55f",
-    "photo-1516321318423-f06f85e504b3",
-    "photo-1488590528505-98d2b5aba04b",
-    "photo-1446776653964-20c1d3a81b06",
-    "photo-1516321165247-4aa89a48be28",
-    "photo-1531297484001-80022131f5a1",
-    "photo-1526379095098-d400fd0bf935",
-    "photo-1504384308090-c894fdcc538d",
-    "photo-1498050108023-c5249f4df085"
-]
+# Alag-alag categories ke hisab se relevant images ka pool
+THEMED_IMAGE_POOLS = {
+    "space": [
+        "photo-1451187580459-43490279c0fa",
+        "photo-1446776653964-20c1d3a81b06",
+        "photo-1506703719100-a0f3a48c0f86"
+    ],
+    "business": [
+        "photo-1486406146926-c627a92ad1ab",
+        "photo-1590283603385-17ffb3a7f29f",
+        "photo-1454165804606-c3d57bc86b40"
+    ],
+    "health": [
+        "photo-1584515979956-d9f6e5d09982",
+        "photo-1576091160399-112ba8d25d1d",
+        "photo-1505751172876-fa1923c5c528"
+    ],
+    "tech": [
+        "photo-1526379095098-d400fd0bf935",
+        "photo-1518770660439-4636190af475",
+        "photo-1550751827-4bd374c3f58b"
+    ],
+    "general": [
+        "photo-1499750310107-5fef28a66643",
+        "photo-1455390582262-044cdead277a",
+        "photo-1507525428034-b723cf961d3e"
+    ]
+}
 
-def generate_unique_image_url(title, variant="cover"):
+def get_relevant_image_url(title, variant="cover"):
+    title_lower = title.lower()
+    
+    # Topic ke words detect karke relevant category select karna
+    category = "general"
+    if any(w in title_lower for w in ["space", "nasa", "mars", "moon", "orbit", "planet", "star"]):
+        category = "space"
+    elif any(w in title_lower for w in ["market", "stocks", "money", "business", "economy", "bank", "fund", "startup"]):
+        category = "business"
+    elif any(w in title_lower for w in ["health", "medical", "cancer", "disease", "doctor", "hospital", "drug", "virus"]):
+        category = "health"
+    elif any(w in title_lower for w in ["tech", "ai", "software", "cyber", "code", "data", "apple", "google", "microsoft"]):
+        category = "tech"
+
+    pool = THEMED_IMAGE_POOLS[category]
     seed = hashlib.sha256(f"{title}:{variant}".encode("utf-8")).hexdigest()
-    index = int(seed[:8], 16) % len(UNSPLASH_IMAGE_POOL)
-    photo_id = UNSPLASH_IMAGE_POOL[index]
+    index = int(seed[:8], 16) % len(pool)
+    photo_id = pool[index]
     sig = int(seed[:10], 16) % 100000
     return f"https://images.unsplash.com/{photo_id}?auto=format&fit=crop&w=1200&q=80&sig={sig}"
 
@@ -155,9 +186,7 @@ def clean_topic_summary(summary):
 def normalize_generated_article(title, summary, generated_text, cover_url, secondary_url):
     raw = generated_text or ""
     
-    # Text clean up aur incomplete ending sentences ko saaf karna
     raw = re.sub(r'\n{3,}', '\n\n', raw).strip()
-    # Aakhri incomplete sentence hataane ke liye full stop tak truncate karna
     last_dot = raw.rfind('.')
     if last_dot != -1:
         raw = raw[:last_dot + 1]
@@ -166,16 +195,16 @@ def normalize_generated_article(title, summary, generated_text, cover_url, secon
         f"# {title}\n\n"
         f"![Cover Image]({cover_url})\n\n"
         f"## Executive Overview\n\n"
-        f"The rapid evolution of modern technology continues to reshape industry standards. "
-        f"Recently, **{title}** has emerged as a crucial topic of discussion among industry experts and developers.\n\n"
-        f"{summary if summary else 'This development addresses key bottlenecks and introduces significant improvements.'}\n\n"
+        f"The rapid evolution of modern events continues to reshape industry standards. "
+        f"Recently, **{title}** has emerged as a crucial topic of discussion globally.\n\n"
+        f"{summary if summary else 'This development addresses key aspects and introduces significant insights.'}\n\n"
         f"## Detailed Analysis & Insights\n\n"
         f"{raw}\n\n"
-        f"## Core Technical Mechanics\n\n"
-        f"* **Performance & Scalability:** Designed to handle workloads efficiently.\n"
-        f"* **Integration:** Seamlessly fits into existing software workflows.\n\n"
+        f"## Key Takeaways & Implications\n\n"
+        f"* **Global Impact:** Analyzing the broader significance on current trends.\n"
+        f"* **Future Outlook:** What stakeholders should expect moving forward.\n\n"
         f"![Secondary Image]({secondary_url})\n\n"
-        f"> **💡 Key Takeaway:** Understanding the trajectory of {title.lower()} is essential for modern tech stacks.\n"
+        f"> **💡 Summary Insight:** Understanding the background of {title.lower()} is essential for comprehensive awareness.\n"
     )
 
     return final_article.strip()
@@ -189,10 +218,10 @@ def ai_discover_category_and_generate(topic):
     if not summary:
         summary = title
 
-    cover_url = generate_unique_image_url(title, 'cover')
-    secondary_url = generate_unique_image_url(title, 'secondary')
+    # Topic ke mutabiq relevant images generate karna
+    cover_url = get_relevant_image_url(title, 'cover')
+    secondary_url = get_relevant_image_url(title, 'secondary')
 
-    # Simple prompt jo model aram se process kar sakay
     prompt = f"Analyzing {title}:"
 
     generated_text = ""
@@ -200,7 +229,7 @@ def ai_discover_category_and_generate(topic):
         if generator:
             res = generator(
                 prompt, 
-                max_new_tokens=201,  # Safe limit taake model cut na ho
+                max_new_tokens=201,
                 num_return_sequences=1, 
                 do_sample=True, 
                 temperature=0.7,
@@ -213,15 +242,15 @@ def ai_discover_category_and_generate(topic):
             else:
                 generated_text = raw_output.strip()
         else:
-            generated_text = f"An evaluation of {title} highlights operational improvements and tech updates."
+            generated_text = f"An evaluation of {title} highlights key operational developments and major updates."
 
-        category = "Artificial Intelligence"
+        category = "World Affairs" if "world" in title.lower() else "General News"
         normalized = normalize_generated_article(title, summary, generated_text, cover_url, secondary_url)
         return category, True, normalized
     except Exception as e:
         logging.error(f"Generation error: {e}")
-        fallback_text = f"An evaluation of {title} highlights key operational efficiencies."
-        return "Hot Trends", True, normalize_generated_article(title, summary, fallback_text, cover_url, secondary_url)
+        fallback_text = f"An evaluation of {title} highlights key developments."
+        return "Trending", True, normalize_generated_article(title, summary, fallback_text, cover_url, secondary_url)
 
 def save_to_markdown(content, title, category, is_hot=True):
     output_dir = "frontend/output_posts"
@@ -271,7 +300,7 @@ def auto_push_to_github():
             logging.info("No new content to push.")
             return
 
-        subprocess.run(["git", "commit", "-m", "Auto blog update via GitHub Actions"], check=True)
+        subprocess.run(["git", "commit", "-m", "Auto update with topic-relevant images"], check=True)
         subprocess.run(["git", "push"], check=True)
         logging.info("Successfully pushed updates to GitHub!")
     except Exception as e:

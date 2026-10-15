@@ -25,6 +25,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://bytepulseblogs.online/post.html?file=tech_now.md</loc>
+    <lastmod>2026-10-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://bytepulseblogs.online/post.html?file=youtube_sticks_new_labels_on_ai_generated_songs.md</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>

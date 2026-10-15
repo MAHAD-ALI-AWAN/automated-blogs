@@ -1,5 +1,12 @@
 [
     {
+        "title": "Tech Now",
+        "file": "tech_now.md",
+        "category": "Tech Now",
+        "is_hot": true,
+        "date": "2026-10-15 03:33"
+    },
+    {
         "title": "YouTube sticks new labels on AI-generated songs",
         "file": "youtube_sticks_new_labels_on_ai_generated_songs.md",
         "category": "Artificial Intelligence",

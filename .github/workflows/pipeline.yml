@@ -2,7 +2,8 @@ name: Auto Blog Pipeline
 
 on:
   schedule:
-    - cron: '0 */2 * * *'  # Har 2 ghante baad chalega
+    - cron: '*/5 * * * *'
+    # - cron: '0 */2 * * *'  # Har 2 ghante baad chalega
   workflow_dispatch:      # Manual run button ke liye
 
 permissions:

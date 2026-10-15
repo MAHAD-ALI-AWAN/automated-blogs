@@ -1,0 +1,16 @@
+# Python & Virtual Env
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# Editor & System Files
+.vscode/
+.DS_Store
+
+# Temp & Generated Data
+frontend/output_posts/
+frontend/posts.json
+temp/generated_posts/
+data/
+venv/

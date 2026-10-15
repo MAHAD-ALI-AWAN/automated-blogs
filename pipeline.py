@@ -20,10 +20,11 @@ logging.basicConfig(
 
 DB_PATH = "data/blog_history.db"
 
-# Hugging Face ka free lightweight model load karna (e.g., distilgpt2 ya gpt2)
+# Hugging Face se thora bara aur better model load karna (e.g., gpt2-medium ya gpt2)
 try:
     logging.info("Hugging Face se model load ho raha hai...")
-    generator = pipeline('text-generation', model='distilgpt2')
+    # Behtar quality aur length ke liye gpt2-medium use kar rahe hain
+    generator = pipeline('text-generation', model='gpt2-medium')
 except Exception as e:
     logging.error(f"Model load error: {e}")
     generator = None
@@ -152,40 +153,68 @@ def clean_topic_summary(summary):
     text = re.sub(r'<[^>]+>', ' ', summary)
     return re.sub(r'\s+', ' ', text).strip()
 
-def normalize_generated_article(title, content, cover_url, secondary_url):
-    raw = content or ""
+def normalize_generated_article(title, summary, generated_text, cover_url, secondary_url):
+    raw = generated_text or ""
+    
+    # Text clean up
+    raw = re.sub(r'\n{3,}', '\n\n', raw).strip()
+
+    # Dynamic Structured Multi-Section Template (To ensure large & rich blog posts)
     final_article = (
         f"# {title}\n\n"
         f"![Cover Image]({cover_url})\n\n"
+        f"## Executive Overview\n\n"
+        f"The rapid evolution of modern technology continues to reshape industry standards. "
+        f"Recently, **{title}** has emerged as a crucial topic of discussion among industry experts, software engineers, and digital innovators.\n\n"
+        f"{summary if summary else 'This development addresses key bottlenecks and introduces significant improvements to the ecosystem.'}\n\n"
+        f"## Detailed Analysis & Insights\n\n"
         f"{raw}\n\n"
-        f"> **💡 Key Takeaway:** Understanding the trajectory of {title.lower()} is essential for stakeholders looking to stay ahead of upcoming tech paradigms.\n\n"
-        f"![Secondary Image]({secondary_url})\n"
+        f"## Core Technical Mechanics & Implications\n\n"
+        f"When breaking down the architectural and practical implications of **{title}**, several critical dimensions come into view:\n\n"
+        f"* **Performance & Scalability:** Designed to handle increasing workloads efficiently while minimizing operational latency.\n"
+        f"* **Integration Flexibility:** Seamlessly fits into existing software pipelines and cloud-native environments.\n"
+        f"* **Security & Compliance:** Built with modern security paradigms to safeguard data integrity and user privacy.\n\n"
+        f"![Secondary Image]({secondary_url})\n\n"
+        f"## Market Impact & Future Outlook\n\n"
+        f"As organizations continue to embrace digital transformation, solutions surrounding **{title}** will play a pivotal role in driving competitive advantage. "
+        f"Early adopters and developers who integrate these concepts early will be well-positioned to lead in their respective domains.\n\n"
+        f"> **💡 Key Takeaway:** Understanding the trajectory of {title.lower()} is essential for engineering leaders, developers, and stakeholders looking to stay ahead of upcoming tech paradigms.\n"
     )
-    return re.sub(r'\n{3,}', '\n\n', final_article).strip()
+
+    return final_article.strip()
 
 def ai_discover_category_and_generate(topic):
-    logging.info("Generating article using Hugging Face local model...")
+    logging.info("Generating comprehensive long-form article...")
     title = (topic.get('title') or 'Trending Story').strip()
     summary = clean_topic_summary(topic.get('summary')) or title
     cover_url = generate_unique_image_url(title, 'cover')
     secondary_url = generate_unique_image_url(title, 'secondary')
 
-    prompt = f"Write an in-depth tech article about: {title}. Context: {summary}\n\n## Executive Overview\n"
+    prompt = f"In-depth tech analysis of {title}: {summary}. Detailed technical insights:"
 
+    generated_text = ""
     try:
         if generator:
-            res = generator(prompt, max_length=400, num_return_sequences=1, do_sample=True, temperature=0.7)
-            response_text = res[0]['generated_text']
+            # max_new_tokens ko increase karke length bari kar di hai
+            res = generator(
+                prompt, 
+                max_new_tokens=600, 
+                num_return_sequences=1, 
+                do_sample=True, 
+                temperature=0.7,
+                truncation=True
+            )
+            generated_text = res[0]['generated_text']
         else:
-            response_text = f"## Executive Overview\nAnalysis on {title}."
+            generated_text = f"An in-depth evaluation of {title} highlights key operational efficiencies, security considerations, and architectural enhancements."
 
         category = "Artificial Intelligence"
-        normalized = normalize_generated_article(title, response_text, cover_url, secondary_url)
+        normalized = normalize_generated_article(title, summary, generated_text, cover_url, secondary_url)
         return category, True, normalized
     except Exception as e:
         logging.error(f"Generation error: {e}")
-        fallback_text = f"## Executive Overview\nAnalysis on {title}."
-        return "Hot Trends", True, normalize_generated_article(title, fallback_text, cover_url, secondary_url)
+        fallback_text = f"An in-depth evaluation of {title} highlights key operational efficiencies and strategic tech updates."
+        return "Hot Trends", True, normalize_generated_article(title, summary, fallback_text, cover_url, secondary_url)
 
 def save_to_markdown(content, title, category, is_hot=True):
     output_dir = "frontend/output_posts"

@@ -200,7 +200,7 @@ def ai_discover_category_and_generate(topic):
         if generator:
             res = generator(
                 prompt, 
-                max_new_tokens=200,  # Safe limit taake model cut na ho
+                max_new_tokens=201,  # Safe limit taake model cut na ho
                 num_return_sequences=1, 
                 do_sample=True, 
                 temperature=0.7,

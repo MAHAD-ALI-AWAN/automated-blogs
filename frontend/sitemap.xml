@@ -2,26 +2,158 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://bytepulseblogs.online/</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://bytepulseblogs.online/about.html</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://bytepulseblogs.online/privacy.html</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://bytepulseblogs.online/contact.html</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=youtube_sticks_new_labels_on_ai_generated_songs.md</loc>
+    <lastmod>2026-10-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=show_hn__how_random_are_you_.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=critical_sonicwall_sma_1000_flaw_targeted_in_135_e.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=tp_link_sued_by_four_more_u_s__states_over_router_.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=us_defense_companies_and_startups_have_signed_at_l.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=the_united_kingdom_generates_less_electricity_per_.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=china_s_industrial_dominance_is_driven_by_competit.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=amazon_pushes_up_prices_across_the_internet.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=who_is_planting_backdoors_in_ledger_crypto_wallets.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=open_letter__geoffrey_hinton__yoshua_bengio__and_o.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=iosevka_is_an_open_source__sans_serif_and_slab_ser.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=anthropic_bans_users_from_being__cruel__to_its_ai_.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=gitlab_patches_cvss_10_0_flaw_that_could_let_unaut.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=flax_typhoon_exploits_five_flaws_as_cisa_sets_octo.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=openai_employee_arrested_for_allegedly_planting_a_.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=how_long_will_humans_be_needed_for_translation_.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=900_page_pre_pantone_guide_to_color_from_1692__wit.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=xbox_is_officially_embracing_the_chaos_of_ai_power.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=filing__abdulrahman_alfozan__the_openai_staffer_ch.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=delaware_based_causa_prima__which_develops_an_agen.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=rivian_partner_mind_robotics_hires_doug_field_as_p.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bytepulseblogs.online/post.html?file=how_drones_are_hunting_fires_hidden_beneath_the_ca.md</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

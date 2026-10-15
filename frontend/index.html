@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Byte Pulse Blogs brings you smart, timely stories, trends, and analysis across technology, culture, and innovation.">
+    <title>Byte Pulse Blogs</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5865967601521346" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-emerald-500 selection:text-slate-950">
+    <style>
+        .feed-loader {
+            display: grid;
+            gap: 1rem;
+            padding: 0.5rem 0 1rem;
+        }
+
+        .feed-loader-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.25rem;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95));
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            min-height: 152px;
+            padding: 1.2rem 1.3rem;
+            box-shadow: 0 16px 32px rgba(15, 23, 42, 0.22);
+        }
+
+        .feed-loader-card::before,
+        .feed-loader-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(51, 65, 85, 0.1) 0%, rgba(148, 163, 184, 0.2) 50%, rgba(51, 65, 85, 0.1) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s ease-in-out infinite;
+        }
+
+        .feed-loader-card > div {
+            position: relative;
+            z-index: 1;
+        }
+
+        .feed-loader-line {
+            height: 12px;
+            border-radius: 999px;
+            background: rgba(148, 163, 184, 0.18);
+            margin-bottom: 0.8rem;
+        }
+
+        .feed-loader-line.short { width: 42%; }
+        .feed-loader-line.medium { width: 70%; }
+        .feed-loader-line.long { width: 92%; }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-wider text-emerald-400">⚡ Byte Pulse Blogs</h1>
+            <span class="text-[11px] text-slate-500 font-medium hidden sm:inline-block">Press <kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-slate-300">/</kbd> to search</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 py-10 lg:px-6">
+        <div>
+            <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-extrabold tracking-tight">Blogs</h2>
+                    <p class="text-slate-400 text-sm mt-1">Multi-genre articles sorted by category.</p>
+                </div>
+            </div>
+
+            <!-- Compact Filter Bar + Live Search Input -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-8 pb-4 border-b border-slate-800/85">
+                <button onclick="filterCategory('🔥 Hot Topics')" id="hot-tab-btn"
+                    class="px-4 py-2.5 rounded-xl text-xs font-bold border transition bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500/20 flex items-center justify-center gap-1.5 shrink-0 shadow-lg shadow-amber-500/5">
+                    🔥 Hot Topics
+                </button>
+
+                <div class="relative w-full sm:max-w-xs">
+                    <select id="category-select" onchange="filterCategory(this.value)" 
+                        class="w-full bg-slate-900 border border-slate-800 text-slate-100 text-xs font-semibold rounded-xl px-4 py-2.5 focus:outline-none focus:border-emerald-500/60 appearance-none cursor-pointer">
+                        <!-- Dynamically populated options -->
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+
+                <!-- Live Search Bar -->
+                <div class="relative w-full sm:flex-1">
+                    <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="Search articles by title... (Press '/' to focus)" 
+                        class="w-full bg-slate-900 border border-slate-800 text-slate-100 text-xs font-medium rounded-xl px-4 py-2.5 pl-9 focus:outline-none focus:border-emerald-500/60 placeholder:text-slate-500">
+                    <svg class="w-4 h-4 text-slate-500 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+            </div>
+
+            <div id="posts-container" class="space-y-6">
+                <div class="feed-loader" aria-live="polite">
+                    <div class="feed-loader-card">
+                        <div>
+                            <div class="feed-loader-line short"></div>
+                            <div class="feed-loader-line long"></div>
+                            <div class="feed-loader-line medium"></div>
+                        </div>
+                    </div>
+                    <div class="feed-loader-card">
+                        <div>
+                            <div class="feed-loader-line short"></div>
+                            <div class="feed-loader-line long"></div>
+                            <div class="feed-loader-line medium"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 mt-20">
+        <div class="max-w-5xl mx-auto px-4 py-10 text-sm text-slate-400">
+            <div class="grid gap-8 md:grid-cols-3">
+                <div>
+                    <h3 class="text-lg font-bold text-emerald-400 mb-3">Byte Pulse Blogs</h3>
+                    <p class="leading-6">Fresh stories, sharp insights, and trend-driven analysis for readers who like smart, useful content.</p>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Explore</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-emerald-400 transition">Home</a></li>
+                        <li><a href="index.html" class="hover:text-emerald-400 transition">Latest Stories</a></li>
+                        <li><a href="index.html" class="hover:text-emerald-400 transition">Hot Topics</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="about.html" class="hover:text-emerald-400 transition">About</a></li>
+                        <li><a href="privacy.html" class="hover:text-emerald-400 transition">Privacy</a></li>
+                        <li><a href="contact.html" class="hover:text-emerald-400 transition">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-slate-800 text-center text-xs text-slate-500">
+                © 2026 Byte Pulse Blogs. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Keyboard Shortcut '/' to focus search
+        document.addEventListener('keydown', function(e) {
+            const searchInput = document.getElementById('search-input');
+            if (e.key === '/' && document.activeElement !== searchInput) {
+                e.preventDefault();
+                if (searchInput) {
+                    searchInput.focus();
+                    searchInput.select();
+                }
+            }
+        });
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>

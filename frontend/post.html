@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Read the latest story from Byte Pulse Blogs, featuring analysis, trends, and fresh insights.">
+    <title>Byte Pulse Blogs | Article</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5865967601521346" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Marked.js library for flawless Markdown and Table rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        /* Index.html Matching Shimmer Loader */
+        .feed-loader {
+            display: grid;
+            gap: 1.25rem;
+            padding: 0.5rem 0;
+        }
+
+        .feed-loader-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.25rem;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95));
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            min-height: 180px;
+            padding: 1.5rem;
+            box-shadow: 0 16px 32px rgba(15, 23, 42, 0.22);
+        }
+
+        .feed-loader-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(51, 65, 85, 0.1) 0%, rgba(148, 163, 184, 0.2) 50%, rgba(51, 65, 85, 0.1) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s ease-in-out infinite;
+        }
+
+        .feed-loader-line {
+            height: 14px;
+            border-radius: 999px;
+            background: rgba(148, 163, 184, 0.18);
+            margin-bottom: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feed-loader-line.short { width: 35%; }
+        .feed-loader-line.medium { width: 68%; }
+        .feed-loader-line.long { width: 95%; }
+        .feed-loader-block {
+            height: 220px;
+            border-radius: 1rem;
+            background: rgba(148, 163, 184, 0.12);
+            margin-top: 1.2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Article Typography & Tables */
+        .premium-article {
+            color: #e2e8f0;
+            line-height: 1.85;
+        }
+        .premium-article h1, .premium-article h2, .premium-article h3 {
+            color: #f8fafc;
+            letter-spacing: -0.02em;
+        }
+        .premium-article h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 1.25rem; }
+        .premium-article h2 { font-size: clamp(1.4rem, 2vw, 1.85rem); font-weight: 700; margin: 2rem 0 0.8rem; color: #34d399; border-bottom: 1px solid rgba(52, 211, 153, 0.2); padding-bottom: 0.4rem; }
+        .premium-article h3 { font-size: 1.25rem; font-weight: 600; margin: 1.5rem 0 0.6rem; }
+        .premium-article p { margin-bottom: 1.2rem; color: #cbd5e1; }
+        .premium-article ul, .premium-article ol { margin: 1rem 0 1.4rem; padding-left: 1.4rem; }
+        .premium-article li { margin: 0.4rem 0; color: #cbd5e1; list-style-type: disc; }
+        .premium-article blockquote { background: rgba(15, 23, 42, 0.8); border-left: 4px solid #10b981; padding: 1rem 1.2rem; border-radius: 0 1rem 1rem 0; margin: 1.5rem 0; font-style: italic; color: #a7f3d0; }
+        
+        /* Table Styling */
+        .premium-article table { width: 100%; border-collapse: collapse; margin: 2rem 0; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 1rem; overflow: hidden; }
+        .premium-article th, .premium-article td { border: 1px solid rgba(148, 163, 184, 0.2); padding: 0.85rem 1rem; text-align: left; }
+        .premium-article th { background: rgba(30, 41, 59, 0.9); color: #f8fafc; font-weight: 700; }
+        .premium-article td { color: #cbd5e1; font-size: 0.95rem; }
+
+        .premium-article img { border-radius: 1.25rem; width: 100%; max-height: 450px; object-fit: cover; border: 1px solid rgba(148, 163, 184, 0.2); margin: 1.5rem 0; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-emerald-500 selection:text-slate-950">
+
+    <!-- Header -->
+    <header class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-xs font-bold text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1.5">
+                &larr; Back to Feed
+            </a>
+            <div class="flex items-center gap-3">
+                <button onclick="openSpotifyShareModal()" 
+                    class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition flex items-center gap-1.5 shadow-lg shadow-emerald-500/5">
+                    ✨ Share Story
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Article Body -->
+    <main class="max-w-3xl mx-auto px-4 py-10 lg:px-6">
+        <div id="article-header" class="mb-8 pb-6 border-b border-slate-800">
+            <h1 id="article-title" class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-4 leading-tight">Loading Article...</h1>
+        </div>
+
+        <article id="article-content" class="premium-article">
+            <!-- Shimmer Loader -->
+            <div class="feed-loader" aria-live="polite">
+                <div class="feed-loader-card">
+                    <div class="feed-loader-line short"></div>
+                    <div class="feed-loader-line long"></div>
+                    <div class="feed-loader-line medium"></div>
+                    <div class="feed-loader-block"></div>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <!-- Spotify-Style Share Card Modal -->
+    <div id="share-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl relative">
+            <button onclick="closeSpotifyShareModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">✕</button>
+            
+            <h3 class="text-xs font-bold uppercase tracking-widest text-emerald-400 mb-4 text-center">Share Story Card</h3>
+
+            <!-- Shareable Poster Card -->
+            <div id="spotify-card" class="bg-gradient-to-b from-slate-800 via-slate-900 to-slate-950 border border-slate-700/60 p-5 rounded-2xl shadow-xl flex flex-col justify-between aspect-[4/5] relative overflow-hidden">
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] font-extrabold tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full uppercase">
+                        BYTE PULSE BLOGS
+                    </span>
+                    <span class="text-[10px] text-slate-400 font-semibold">⚡ Byte Pulse Blogs</span>
+                </div>
+
+                <div class="my-4">
+                    <div id="card-image-wrapper" class="w-full h-36 rounded-xl overflow-hidden mb-3 border border-slate-700/50 bg-slate-800">
+                        <img id="card-cover-img" src="" class="w-full h-full object-cover" alt="Cover">
+                    </div>
+                    <h2 id="card-title" class="text-lg font-black text-white leading-snug line-clamp-3">Article Title</h2>
+                </div>
+
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-300">Byte Pulse Blogs Exclusive</p>
+                        <a id="card-link" href="#" target="_blank" class="text-[10px] text-emerald-400 font-extrabold flex items-center gap-1 mt-0.5 hover:underline">Read Full Story &rarr;</a>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center font-black text-xs shadow-md">
+                        ⚡
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="grid grid-cols-2 gap-2 mt-5">
+                <button onclick="shareToWhatsapp()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5">
+                    💬 WhatsApp
+                </button>
+                <button onclick="copyArticleLink()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5">
+                    🔗 Copy Link
+                </button>
+            </div>
+            <button id="download-btn" onclick="downloadCardImage()" class="w-full mt-2 bg-slate-800/60 hover:bg-slate-800 text-emerald-400 border border-emerald-500/20 font-bold py-2 rounded-xl text-xs transition">
+                📸 Download Poster Card (JPG)
+            </button>
+        </div>
+    </div>
+
+    <footer class="border-t border-slate-800 mt-16">
+        <div class="max-w-4xl mx-auto px-4 py-10 text-sm text-slate-400">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h3 class="text-lg font-bold text-emerald-400">Byte Pulse Blogs</h3>
+                    <p class="mt-1 text-slate-400">Smart stories. Better context. Clear insight.</p>
+                </div>
+                <div class="flex flex-wrap gap-4 text-xs uppercase tracking-[0.18em] text-slate-500">
+                    <a href="index.html" class="hover:text-emerald-400 transition">Home</a>
+                    <a href="about.html" class="hover:text-emerald-400 transition">About</a>
+                    <a href="privacy.html" class="hover:text-emerald-400 transition">Privacy</a>
+                    <a href="contact.html" class="hover:text-emerald-400 transition">Contact</a>
+                </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-slate-800 text-center text-xs text-slate-500">
+                © 2026 Byte Pulse Blogs. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Article Script -->
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const fileName = urlParams.get('file');
+        const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/MAHAD-ALI-AWAN/automated-blogs/main';
+
+        function stripFrontmatter(markdownText) {
+            if (!markdownText || !markdownText.trim().startsWith('---')) return markdownText;
+            const match = markdownText.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/);
+            return match ? markdownText.slice(match[0].length).trim() : markdownText.trim();
+        }
+
+        // Convert image URL to Base64 to defeat CORS issues during html2canvas render
+        async function fetchImageAsBase64(url) {
+            try {
+                const res = await fetch(url);
+                const blob = await res.blob();
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(blob);
+                });
+            } catch (err) {
+                console.error("Base64 fetch error:", err);
+                return url; // fallback to original URL
+            }
+        }
+
+        async function loadArticle() {
+            const articleContent = document.getElementById('article-content');
+            const titleElement = document.getElementById('article-title');
+
+            if (!fileName) {
+                articleContent.innerHTML = "<p class='text-red-400'>Article file missing.</p>";
+                return;
+            }
+
+            try {
+                const response = await fetch(`${GITHUB_RAW_BASE}/frontend/output_posts/${encodeURIComponent(fileName)}`);
+                if (!response.ok) throw new Error('Fetch failed');
+
+                let markdownText = await response.text();
+                markdownText = stripFrontmatter(markdownText);
+
+                // Render Markdown via Marked.js
+                articleContent.innerHTML = marked.parse(markdownText);
+
+                const firstHeading = articleContent.querySelector('h1');
+                if (firstHeading) {
+                    titleElement.innerText = firstHeading.innerText.trim();
+                    firstHeading.remove();
+                } else {
+                    titleElement.innerText = "Article View";
+                }
+
+                // Populate Modal Data
+                document.getElementById('card-title').innerText = titleElement.innerText;
+                document.getElementById('card-link').href = window.location.href;
+
+                const coverImg = articleContent.querySelector('img');
+                const cardImg = document.getElementById('card-cover-img');
+                
+                if (coverImg && coverImg.src) {
+                    // Convert cover image to base64 for reliable canvas capture
+                    const base64Img = await fetchImageAsBase64(coverImg.src);
+                    cardImg.src = base64Img;
+                } else {
+                    document.getElementById('card-image-wrapper').style.display = 'none';
+                }
+
+            } catch (error) {
+                articleContent.innerHTML = `<p class='text-red-400'>Error loading story: ${error.message}</p>`;
+            }
+        }
+
+        function openSpotifyShareModal() {
+            document.getElementById('share-modal').classList.remove('hidden');
+        }
+
+        function closeSpotifyShareModal() {
+            document.getElementById('share-modal').classList.add('hidden');
+        }
+
+        function getFullArticleUrl() {
+            return window.location.href;
+        }
+
+        function copyArticleLink() {
+            navigator.clipboard.writeText(getFullArticleUrl());
+            alert('Article link copied to clipboard!');
+        }
+
+        function shareToWhatsapp() {
+            const articleUrl = getFullArticleUrl();
+            const text = encodeURIComponent(`Check out this story: "${document.getElementById('article-title').innerText}"\n\nRead here: ${articleUrl}`);
+            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+        }
+
+        async function downloadCardImage() {
+            const btn = document.getElementById('download-btn');
+            btn.innerText = "⏳ Generating Card...";
+            btn.disabled = true;
+
+            const card = document.getElementById('spotify-card');
+
+            try {
+                const canvas = await html2canvas(card, {
+                    useCORS: true,
+                    allowTaint: true,
+                    scale: 3, // High-DPI crisp rendering
+                    backgroundColor: null
+                });
+
+                const link = document.createElement('a');
+                link.download = `${fileName ? fileName.replace('.md', '') : 'story'}-card.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } catch (err) {
+                console.error("Canvas error:", err);
+                alert("Poster image generate hone mein masla aya. Direct link share karein.");
+            } finally {
+                btn.innerText = "📸 Download Poster Card (JPG)";
+                btn.disabled = false;
+            }
+        }
+
+        loadArticle();
+    </script>
+</body>
+</html>

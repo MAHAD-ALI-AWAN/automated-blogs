@@ -1,5 +1,12 @@
 [
     {
+        "title": "Tech Life",
+        "file": "tech_life.md",
+        "category": "General News",
+        "is_hot": true,
+        "date": "2026-10-22 16:35"
+    },
+    {
         "title": "Websites taken down worldwide as critical cyber-security update issued",
         "file": "websites_taken_down_worldwide_as_critical_cyber_se.md",
         "category": "World Affairs",

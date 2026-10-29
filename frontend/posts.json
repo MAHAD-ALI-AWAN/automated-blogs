@@ -1,5 +1,12 @@
 [
     {
+        "title": "Qwenputer: A functioning, deterministic RISC-V CPU inside Qwen3.5",
+        "file": "qwenputer__a_functioning__deterministic_risc_v_cpu.md",
+        "category": "General News",
+        "is_hot": true,
+        "date": "2026-10-29 04:11"
+    },
+    {
         "title": "Apple adds a 512GB RAM configuration for the Mac Studio with the M5 Ultra chip, starting at $22,299; the M5 Max model maxes out at 128GB of RAM (Joe Rossignol/MacRumors)",
         "file": "apple_adds_a_512gb_ram_configuration_for_the_mac_s.md",
         "category": "General News",

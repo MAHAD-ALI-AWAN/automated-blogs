@@ -1,5 +1,12 @@
 [
     {
+        "title": "Jules Verne's Lost Novel",
+        "file": "jules_verne_s_lost_novel.md",
+        "category": "General News",
+        "is_hot": true,
+        "date": "2026-10-31 07:59"
+    },
+    {
         "title": "Reddit closed down 29.27% on Friday, the worst drop since becoming a public company in 2024, after it forecast weak Q4 revenue (Caleigh Keating/CNBC)",
         "file": "reddit_closed_down_29_27__on_friday__the_worst_dro.md",
         "category": "General News",

@@ -1,5 +1,12 @@
 [
     {
+        "title": "Frontier Airlines Likely Breached",
+        "file": "frontier_airlines_likely_breached.md",
+        "category": "General News",
+        "is_hot": true,
+        "date": "2026-11-01 17:36"
+    },
+    {
         "title": "Hackers Exploited Cisco SD-WAN Flaw to Plant Malware Built to Steal Encryption Keys",
         "file": "hackers_exploited_cisco_sd_wan_flaw_to_plant_malwa.md",
         "category": "General News",

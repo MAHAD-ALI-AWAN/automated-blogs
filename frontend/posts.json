@@ -1,5 +1,12 @@
 [
     {
+        "title": "OpenSSH Issues Emergency Fix for Flaw Letting Long Passwords Bypass SSH Auth on Alpine Linux",
+        "file": "openssh_issues_emergency_fix_for_flaw_letting_long.md",
+        "category": "General News",
+        "is_hot": true,
+        "date": "2026-11-07 21:25"
+    },
+    {
         "title": "Good riddance, Cybertruck!",
         "file": "good_riddance__cybertruck_.md",
         "category": "General News",

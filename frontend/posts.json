@@ -1,5 +1,12 @@
 [
     {
+        "title": "The US let Nvidia sell chips to an empty office in China",
+        "file": "the_us_let_nvidia_sell_chips_to_an_empty_office_in.md",
+        "category": "General News",
+        "is_hot": true,
+        "date": "2026-11-08 01:03"
+    },
+    {
         "title": "OpenSSH Issues Emergency Fix for Flaw Letting Long Passwords Bypass SSH Auth on Alpine Linux",
         "file": "openssh_issues_emergency_fix_for_flaw_letting_long.md",
         "category": "General News",

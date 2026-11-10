@@ -1,5 +1,12 @@
 [
     {
+        "title": "I deleted all my SSH keys",
+        "file": "i_deleted_all_my_ssh_keys.md",
+        "category": "General News",
+        "is_hot": true,
+        "date": "2026-11-10 22:48"
+    },
+    {
         "title": "NetBSD 11 desktop on a Raspberry Pi 4",
         "file": "netbsd_11_desktop_on_a_raspberry_pi_4.md",
         "category": "General News",

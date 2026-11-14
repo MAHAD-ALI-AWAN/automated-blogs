@@ -1,5 +1,12 @@
 [
     {
+        "title": "FAA issues national ground stop",
+        "file": "faa_issues_national_ground_stop.md",
+        "category": "General News",
+        "is_hot": true,
+        "date": "2026-11-14 01:16"
+    },
+    {
         "title": "Trezor Confirms Hidden Implants in CryptoBilis-Sold Wallets That Can Steal Recovery Phrases",
         "file": "trezor_confirms_hidden_implants_in_cryptobilis_sol.md",
         "category": "General News",

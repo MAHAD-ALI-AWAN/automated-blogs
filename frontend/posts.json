@@ -1,5 +1,12 @@
 [
     {
+        "title": "Who to watch in Spain's election race",
+        "file": "who_to_watch_in_spain_s_election_race.md",
+        "category": "General News",
+        "is_hot": true,
+        "date": "2026-11-18 19:56"
+    },
+    {
         "title": "Critical Pre-Auth MongoDB Flaw (CVE-2026-118383) Can Crash Lagging Servers on Failover",
         "file": "critical_pre_auth_mongodb_flaw__cve_2026_118383__c.md",
         "category": "General News",

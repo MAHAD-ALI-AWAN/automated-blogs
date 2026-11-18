@@ -1,5 +1,12 @@
 [
     {
+        "title": "Critical Pre-Auth MongoDB Flaw (CVE-2026-118383) Can Crash Lagging Servers on Failover",
+        "file": "critical_pre_auth_mongodb_flaw__cve_2026_118383__c.md",
+        "category": "General News",
+        "is_hot": true,
+        "date": "2026-11-18 11:03"
+    },
+    {
         "title": "Intel sued by investors after PC sales slump hits share price ",
         "file": "intel_sued_by_investors_after_pc_sales_slump_hits_.md",
         "category": "General News",
